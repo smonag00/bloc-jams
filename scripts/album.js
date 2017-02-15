@@ -12,7 +12,7 @@ var albumPicasso = {
     {title: 'Pink', duration: '3:21'},
     {title: 'Magenta', duration: '2:15'}
   ]
-}
+};
 
 // Another Example Album
 var albumMarconi = {
@@ -28,6 +28,23 @@ var albumMarconi = {
         { title: 'Can you hear me now?', duration: '3:14' },
         { title: 'Wrong phone number', duration: '2:15'}
     ]
+};
+var albumWeezer = {
+  title: 'The Blue Album',
+  artist: 'Weezer',
+  label: 'Geffen Records',
+  year: '1994',
+  albumArtUrl: 'assets/images/album_covers/Weezer_-_Blue_Album.png',
+  songs: [
+    {title: 'My Name Is Jonas', duration: '3:24'},
+    {title: 'No One Else', duration: '3:05'},
+    {title: 'Buddy Holly', duration: '4:19'},
+    {title: 'Undone', duration: '2:40'},
+    {title: 'Surf Wax America', duration: '5:05'},
+    {title: 'Say It Aint So', duration: '3:07'},
+    {title: 'In The Garage', duration: '3:56'},
+    {title: 'Holiday', duration: '3:25'}
+  ]
 };
 var createSongRow = function(songNumber, songName, songLength) {
   var template =  '<tr class="album-view-song-item">'
@@ -57,6 +74,15 @@ var setCurrentAlbum = function(album) {
     albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
   }
 };
-window.onload = function() {
-  setCurrentAlbum(albumPicasso);
-};
+
+
+var albumList = [albumWeezer, albumPicasso, albumMarconi];
+var count = 0;
+window.onload = setCurrentAlbum(albumList[count]);
+document.getElementsByClassName('album-cover-art')[0].addEventListener('click', function() {
+  count = count + 1;
+    if(count === albumList.length){
+      count = 0;
+    }
+    setCurrentAlbum(albumList[count]);
+  });
