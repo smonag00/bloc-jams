@@ -101,35 +101,31 @@ var updatePlayerBarSong = function() {
 };
 
 
-var nextSong = function(index) {
-  var getLastSongNumber = function(index) {
-    if(index === 0) {
-      return currentAlbum.songs.length;
+var songPicker = function(type) {
+  var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+  if (type ==  'next'){
+      var getLastSongNumber = function(index) {
+        if(index === 0) {
+          return currentAlbum.songs.length;
     }
     else{
       return index;
     }
-  };
-  var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+  }
+
   currentSongIndex ++;
   if(currentSongIndex >= currentAlbum.songs.length){
     currentSongIndex = 0;
   }
   currentlyPlayingSongNumber = currentSongIndex + 1;
   currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
-  updatePlayerBarSong();
-  var lastSongNumber = getLastSongNumber(currentSongIndex);
-  var $nextSongNumberCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
-  var $lastSongNumberCell = $('.song-item-number[data-song-number="' + lastSongNumber + '"]');
 
-  $nextSongNumberCell.html(pauseButtonTemplate);
-  $lastSongNumberCell.html(lastSongNumber);
-}
-var previousSong = function() {
-  var getLastSongNumber = function(index) {
+};
+ if(type == 'previous'){
+    var getLastSongNumber = function(index) {
         return index == (currentAlbum.songs.length - 1) ? 1 : index + 2;
     };
-    var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
+
 
     currentSongIndex--;
 
@@ -140,7 +136,7 @@ var previousSong = function() {
 
     currentlyPlayingSongNumber = currentSongIndex + 1;
     currentSongFromAlbum = currentAlbum.songs[currentSongIndex];
-
+};
 
     updatePlayerBarSong();
 
@@ -154,11 +150,6 @@ var previousSong = function() {
     $lastSongNumberCell.html(lastSongNumber);
 
 };
-
-
-
-
-
 
 
 var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
@@ -176,7 +167,11 @@ var $previousButton = $('.main-controls .previous');
 
 $(document).ready(function() {
   setCurrentAlbum(albumPicasso);
-  $nextButton.click(nextSong);
-  $previousButton.click(previousSong);
+  $nextButton.click(function(){
+    songPicker('next');
+  });
+  $previousButton.click(function(){
+    songPicker('previous');
+  });
 
 });
