@@ -1,3 +1,13 @@
+var setSong = function(songNumber){
+  currentlyPlayingSongNumber = parseInt(songNumber);
+  currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+
+};
+
+var getSongNumberCell = function(number){
+  return $('.song-item-number[data-song-number="' + number + '"]');
+
+};
 
 var createSongRow = function(songNumber, songName, songLength) {
   var template =  '<tr class="album-view-song-item">'
@@ -12,25 +22,23 @@ var createSongRow = function(songNumber, songName, songLength) {
 
                 var songNumber = parseInt($(this).attr('data-song-number'));
 
-                if(currentlyPlayingSongNumber !== null) {
-                  var currentlyPlayingCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
-                  currentlyPlayingCell.html(currentlyPlayingSongNumber);
 
+                if(currentlyPlayingSongNumber !== null) {
+                  var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+                  currentlyPlayingCell.html(currentlyPlayingSongNumber);
                 }
+
                 if (currentlyPlayingSongNumber !== songNumber) {
                   $(this).html(pauseButtonTemplate);
-                  currentlyPlayingSongNumber =  songNumber;
-                  currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+                  setSong(songNumber);
                 }
+
                 else if (currentlyPlayingSongNumber === songNumber) {
                   $(this).html(playButtonTemplate);
                   $('.main-controls .play-pause').html(playerBarPlayButton);
-                  currentlyPlayingSongNumber = null;
-                  currentSongFromAlbum = null;
-
+                  setSong(null);
                 }
                 updatePlayerBarSong();
-
               };
 
               var onHover = function(event){
@@ -49,7 +57,7 @@ var createSongRow = function(songNumber, songName, songLength) {
                 if(songNumber !== currentlyPlayingSongNumber) {
                   songNumberCell.html(songNumber);
                 }
-                console.log("songNumber type is " + typeof songNumber + "\n and currentlyPlayingSongNumber type is " + typeof currentlyPlayingSongNumber);
+
               };
 
               $row.find('.song-item-number').click(clickHandler);
@@ -76,6 +84,8 @@ var setCurrentAlbum = function(album) {
     $albumSongList.append($newRow);
   }
 };
+
+
 
 var trackIndex = function(album, song) {
   return album.songs.indexOf(song);
