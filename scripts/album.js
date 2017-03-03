@@ -189,6 +189,28 @@ var previousSong = function() {
 
 };
 
+
+var togglePlayFromPlayerBar = function() {
+  if(currentSoundFile.isPaused()){
+    currentSoundFile.play();
+    var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+    currentlyPlayingCell.html(pauseButtonTemplate);
+    $playPauseButton.html(playerBarPauseButton);
+
+  }
+
+
+  else if(currentSoundFile !== null) {
+    var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+    currentlyPlayingCell.html(playButtonTemplate);
+    $playPauseButton.html(playerBarPlayButton);
+    currentSoundFile.pause();
+
+  }
+
+
+};
+
 var updateSeekPercentage = function($seekBar, seekBarFillRatio) {
   var offsetXPercent = seekBarFillRatio * 100;
 
@@ -296,17 +318,17 @@ var currentlyPlayingSongNumber = null;
 var currentAlbum = null;
 var currentSongFromAlbum = null;
 var currentSoundFile = null;
-var currentVolume = 80;
-
+var currentVolume = 30;
 var $nextButton = $('.main-controls .next');
 var $previousButton = $('.main-controls .previous');
 
 
 $(document).ready(function() {
-  setCurrentAlbum(albumPicasso);
+
   $nextButton.click(nextSong);
   $previousButton.click(previousSong);
   setupSeekBars();
+  setCurrentAlbum(albumWeezerGreen);
 
 
 });
